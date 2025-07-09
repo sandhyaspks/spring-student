@@ -1,44 +1,38 @@
 package com.example.student.services;
 
 import com.example.student.models.Student;
+import com.example.student.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 
 @Service
 public class StudentServices {
-    private List<Student> std = new ArrayList<>(
-            Arrays.asList(new Student(1,"Manimegalai","CSE"),
-                    new Student(2,"Varsha","ECE"),
-                    new Student(3,"Tivya","AIML"))
-    );
-    public List<Student> getAllStudents(){
-        return std;
-    }
-    public Student getStudentById(int id){
-        return std.stream().filter(s->s.getRollno()==id).findFirst().orElse(null);
-    }
-    public void addStudents(Student student){
-        std.add(student);
-    }
-    public void updateStudents(int id,Student student){
-        for(int i=0;i<std.size();i++){
-            Student s=std.get(i);
-            if(s.getRollno()==id){
-                std.set(i,student);
-                return;
-            }
-        }
-    }
-    public void deleteStudents(int id) {
-        Student st = std.stream().filter(s -> s.getRollno() == id).findFirst().orElse(null);
-        if (st!=null) {
-            std.remove(st);
-        }else{
-            System.out.println("Student not found with ID: " + id);
-        }
+    @Autowired
+    private StudentRepository studentRepository;
+    public String addStudents(Student stu){
+        studentRepository.save(stu);
+        return "Student added successfully";
     }
 
+
+    public List<Student> getAllStudents() {
+    return studentRepository.findAll();
+    }
+
+    public Student getStudentById(int id) {
+        return studentRepository.findById(id).orElse(null);
+    }
+
+    public String updateStudents(int id, Student student) {
+        studentRepository.save(student);
+        return "Student added successfully";
+    }
+
+    public String deleteStudents(int id) {
+        studentRepository.deleteById(id);
+        return "Student deleted successfully";
+    }
 }

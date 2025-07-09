@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/stu")
 public class StudentController {
 
     @Autowired
@@ -23,18 +24,18 @@ public class StudentController {
         return stu.getStudentById(id);
     }
 
-    @PostMapping("/students")
-    public void addStudents(@RequestBody Student student){
-        stu.addStudents(student);
+    @PostMapping
+    public String addStudents(@RequestBody Student student){
+         return stu.addStudents(student);
     }
 
     @PutMapping("/students/{id}")
-    public void updateStudents(@PathVariable int id,@RequestBody Student student){
-        stu.updateStudents(id,student);
+    public String updateStudents(@PathVariable int id,@RequestBody Student student){
+        return stu.updateStudents(id,student);
     }
 
     @DeleteMapping("/students/{id}")
-    public void deleteStudent(@PathVariable int id) {
-        stu.deleteStudents(id);
+    public String deleteStudent(@PathVariable int id) {
+        return stu.deleteStudents(id);
     }
 }
